@@ -1,6 +1,6 @@
 {
 	"name": "better-expect",
-	"version": "0.8.1",
+	"version": "1.0.0",
 	"description": "Assert-style excepetion handling for better errors",
 	"keywords": ["assert", "stack", "trace", "debug", "error", "exception"],
 	"author": "Torkild Dyvik Olsen <torkild@tdolsen.net>",
@@ -11,8 +11,14 @@
 	"dependencies": {
 		"callsite": "1.x"
 	},
+	"devDependencies": {
+		"better-assert": "1.x"
+	},
 	"main": "index",
 	"engines": {
 		"node": "*"
+	},
+	"scripts": {
+		"test": "mocha tests.js"
 	}
 }

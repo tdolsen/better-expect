@@ -1,25 +1,39 @@
 // Module dependencies.
-var AssertionError = require('assert').AssertionError
-  , callsite = require('callsite')
+var callsite = require('callsite')
   , fs = require('fs')
+  , AssertionError = require('assert').AssertionError
+  , util = require('util')
   ;
 
 // Custom `ExpectationError`, inheriting from `AssertionError`.
-var ExpectationError = function() {
-	AssertionError.prototype.constructor.apply(this, Array.prototype.slice.call(arguments, 0));
-	this.name = "ExpectationError";
+var ExpectationError = function(options) {
+  if (typeof options === 'string') {
+    options = { message: options };
+  }
+  options = options || {};
+  if (!options.message) options.message = "ExpectationError";
+  ExpectationError.super_.call(this, options);
+  this.name = "ExpectationError";
 };
-
-ExpectationError.prototype = AssertionError.prototype;
+util.inherits(ExpectationError, AssertionError);
 
 // Expects given `expr` to throw an `Error`. Additional parameters are
 // supplied to the `expr` function.
-var expect = function(expr) {
+var expect = function(err, expr) {
   try {
   	expr.apply(expr, Array.prototype.slice.call(arguments, 2));
   } catch(e) {
-  	return e;
-  	//if (e instanceof err) return;
+    if (err instanceof RegExp) {
+      if (err.test(e.message)) return e;
+    }
+
+    if (err.constructor === Array) {
+      for (var i = 0, j = err.length; i <j; i++) {
+        if (e instanceof err[i]) return e;
+      }
+    } else {
+  	  if (e instanceof err) return e;
+    }
   }
 
   var stack = callsite()

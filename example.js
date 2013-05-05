@@ -4,5 +4,5 @@ function test() {
   throw new Error();
 };
 
-expect(test);
-expect(function() { return; });
+expect(Error, test);
+expect(Error, function() { return; });

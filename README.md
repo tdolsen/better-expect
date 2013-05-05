@@ -25,12 +25,12 @@ function test() {
   throw new Error();
 };
 
-expect(test);
+expect(Error, test);
 // (passes)
 
-expect(function() { return; });
-// ExpectationError: function() { return; }
-//    at Object.<anonymous> (~/better-expect/example.js:10:1)
+expect(Error, function() { return; });
+// ExpectationError: Error, function() { return; }
+//    at Object.<anonymous> (~/better-expect/example.js:8:1)
 //    at Module._compile (module.js:449:26)
 //    at Object.Module._extensions..js (module.js:467:10)
 //    at Module.load (module.js:356:32)
@@ -38,6 +38,8 @@ expect(function() { return; });
 //    at Module.runMain (module.js:492:10)
 //    at process.startup.processNextTick.process._tickCallback (node.js:244:9)
 ```
+
+See the tests for more examples.
 
 License
 -------
